@@ -1,9 +1,10 @@
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "4.39.0"
-      configuration_aliases = [ aws.test ]
-    }
-  }
+required_providers {
+  aws = {
+    source = "hashicorp/aws"
+    configuration_aliases = [
+      aws.dev,
+     ]
+   }
+ }
 }

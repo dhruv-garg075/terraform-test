@@ -23,6 +23,6 @@ module "iam_role" {
   source = "./modules/iam_role"
   account_id = 122838670202
   providers = {
-    aws.test = aws.dev
+    aws.dev = aws.dev
   }
 }
