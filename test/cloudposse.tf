@@ -20,6 +20,14 @@ module "dev_iam_role" {
     Federated = ["arn:aws:iam::820297181458:saml-provider/OneLogin"]
   }
 
+  assume_role_conditions = [(
+    {
+      test = "StringEquals"
+      variable = "SAML:aud"
+      values = ["https://signin.aws.amazon.com/saml"]
+    }
+  )]
+
   policy_documents = [
     module.policy.policy
   ]
