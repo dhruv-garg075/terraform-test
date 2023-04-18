@@ -55,4 +55,9 @@ module "role" {
     data.aws_iam_policy_document.inline_policy.json,
     data.aws_iam_policy_document.base.json
   ]
+  
+  managed_policy_arns = [
+    "arn:aws:iam::122838670202:policy/service-role/s3crr_for_dhruv-bucket-original_99be4e",
+    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess"
+  ]
 }
