@@ -1,3 +1,7 @@
+module "policy" {
+  source = "../"
+}
+
 module "dev_iam_role" {
   source = "cloudposse/iam-role/aws"
   version     = "0.17.0"
@@ -13,12 +17,11 @@ module "dev_iam_role" {
 
   assume_role_actions = ["sts:AssumeRoleWithSAML"]
   principals = {
-    Federated = ["arn:aws:iam::${var.dev_account_id}:saml-provider/OneLogin"]
+    Federated = ["arn:aws:iam::820297181458:saml-provider/OneLogin"]
   }
 
   policy_documents = [
-    data.aws_iam_policy_document.inline_policy.json,
-    data.aws_iam_policy_document.base.json
+    module.policy.policy
   ]
   
   managed_policy_arns = [
@@ -42,12 +45,11 @@ module "prod_iam_role" {
 
   assume_role_actions = ["sts:AssumeRoleWithSAML"]
   principals = {
-    Federated = ["arn:aws:iam::${var.prod_account_id}:saml-provider/OneLogin"]
+    Federated = ["arn:aws:iam::820297181458:saml-provider/OneLogin"]
   }
 
   policy_documents = [
-    data.aws_iam_policy_document.inline_policy.json,
-    data.aws_iam_policy_document.base.json
+    module.policy.policy
   ]
 
   managed_policy_arns = [
