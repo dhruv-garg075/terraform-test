@@ -1,4 +1,5 @@
 resource "aws_iam_role" "TerraformTestRole" {
+  provider           = aws.dev
   name               = "TerraformTestRole"
   assume_role_policy = jsonencode(
         {
