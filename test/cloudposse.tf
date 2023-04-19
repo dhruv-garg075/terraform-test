@@ -80,7 +80,7 @@ module "prod_iam_role" {
 
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
-    "arn:aws:iam::${var.dev_account_id}:policy/${module.managed_iam_prod_policy.policy_name}"
+    "arn:aws:iam::${var.prod_account_id}:policy/${module.managed_iam_prod_policy.policy_name}"
   ]
 }
 
