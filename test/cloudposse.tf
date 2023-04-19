@@ -28,14 +28,16 @@ module "dev_iam_role" {
     }
   )]
 
+  policy_document_count = 2
+  
   policy_documents = [
-    module.policy.policy
+    module.policy.policy,
+    module.policy.policy1
   ]
   
   managed_policy_arns = [
     "arn:aws:iam::${var.dev_account_id}:policy/service-role/s3crr_for_dhruv-bucket-original_99be4e",
-    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
-    "arn:aws:iam::122838670202:policy/${module.policy.policy_name}"
+    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess"
   ]
 }
 
