@@ -11,9 +11,7 @@ module "managed_iam_policy" {
   enabled = true
   name = "test-policy-cloudposse"
   
-  iam_source_policy_documents = [
-    "${module.policy.all_access}"
-  ]
+  iam_policy_statements = module.policy.all_access.json
 }
 
 module "dev_iam_role" {
