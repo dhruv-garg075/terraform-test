@@ -49,6 +49,13 @@ module "dev_iam_role" {
   ]
 }
 
+module "managed_iam_prod_policy" {
+  source = "../modules/iam_policy"
+  providers = {
+    aws.prod = aws.prod
+  }
+}
+
 module "prod_iam_role" {
   source = "cloudposse/iam-role/aws"
   version     = "0.17.0"
@@ -72,7 +79,8 @@ module "prod_iam_role" {
   ]
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess"
+    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
+    "arn:aws:iam::${var.dev_account_id}:policy/${module.managed_iam_prod_policy.policy_name}"
   ]
 }
 
