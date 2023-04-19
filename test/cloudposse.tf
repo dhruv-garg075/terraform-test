@@ -39,8 +39,7 @@ module "dev_iam_role" {
   policy_document_count = 2
   
   policy_documents = [
-    module.policy.policy,
-    module.policy.policy1
+    module.policy.policy
   ]
   
   managed_policy_arns = [
