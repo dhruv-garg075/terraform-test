@@ -2,6 +2,12 @@ module "policy" {
   source = "../"
 }
 
+resource "aws_iam_policy" "test_managed_policy" {
+  provider = aws.dev
+  name     = "TestManagedPolicy"
+  policy   = file("../managedpolicy.json")
+}
+ 
 module "dev_iam_role" {
   source = "cloudposse/iam-role/aws"
   version     = "0.17.0"
@@ -37,7 +43,8 @@ module "dev_iam_role" {
   
   managed_policy_arns = [
     "arn:aws:iam::${var.dev_account_id}:policy/service-role/s3crr_for_dhruv-bucket-original_99be4e",
-    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess"
+    "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
+    "arn:aws:iam::${var.dev_account_id}:policy/${aws_iam_policy.test_managed_policy.name}"
   ]
 }
 
