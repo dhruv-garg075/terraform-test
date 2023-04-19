@@ -43,7 +43,6 @@ module "dev_iam_role" {
   ]
   
   managed_policy_arns = [
-    "arn:aws:iam::${var.dev_account_id}:policy/service-role/s3crr_for_dhruv-bucket-original_99be4e",
     "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
     "arn:aws:iam::${var.dev_account_id}:policy/${module.managed_iam_policy.policy_name}"
   ]
