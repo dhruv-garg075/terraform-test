@@ -10,6 +10,7 @@ module "managed_iam_policy" {
 }
 
 module "dev_iam_role" {
+  depends_on = [module.managed_iam_policy]
   source = "cloudposse/iam-role/aws"
   version     = "0.17.0"
   providers = {
@@ -71,7 +72,6 @@ module "prod_iam_role" {
   ]
 
   managed_policy_arns = [
-    "arn:aws:iam::${var.prod_account_id}:policy/service-role/s3crr_for_dhruv-bucket-original_99be4e",
     "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess"
   ]
 }
