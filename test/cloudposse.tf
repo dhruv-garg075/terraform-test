@@ -3,10 +3,17 @@ module "policy" {
 }
 
 module "managed_iam_policy" {
-  source = "../modules/iam_policy"
+  source = "cloudposse/iam-policy/aws"
+  version = "0.4.0"
   providers = {
-    aws.dev = aws.dev
+    aws = aws.dev
   }
+  enabled = true
+  name = "test-policy-cloudposse"
+  
+  iam_source_policy_documents = [
+    "${module.policy.all_access}"
+  ]
 }
 
 module "dev_iam_role" {
@@ -45,7 +52,7 @@ module "dev_iam_role" {
   
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
-    "arn:aws:iam::${var.dev_account_id}:policy/${module.managed_iam_policy.policy_name}"
+    "${module.managed_iam_policy.policy_arn}"
   ]
 }
 
