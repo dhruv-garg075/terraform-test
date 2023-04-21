@@ -1,16 +1,10 @@
-module "policy" {
-  source = "../"
-}
-
-module "managed_iam_policy" {
-  source = "../modules/iam_policy"
-  providers = {
-    aws = aws.dev
-  }
+resource "aws_iam_policy" "test_managed_policy" {
+  name     = "TestManagedPolicy"
+  policy   = file("managedpolicy.json")
 }
 
 module "dev_iam_role" {
-  depends_on = [module.managed_iam_policy]
+  depends_on = [aws_iam_policy.test_managed_policy]
   source = "cloudposse/iam-role/aws"
   version     = "0.17.0"
   providers = {
@@ -39,20 +33,13 @@ module "dev_iam_role" {
   policy_document_count = 2
   
   policy_documents = [
-    module.policy.policy
+    data.aws_iam_policy_document.inline_policy.json
   ]
   
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
-    "arn:aws:iam::${var.dev_account_id}:policy/${module.managed_iam_policy.policy_name}"
+    "arn:aws:iam::${var.dev_account_id}:policy/${aws_iam_policy.test_managed_policy.name}"
   ]
-}
-
-module "managed_iam_prod_policy" {
-  source = "../modules/iam_policy"
-  providers = {
-    aws = aws.prod
-  }
 }
 
 module "prod_iam_role" {
@@ -74,12 +61,12 @@ module "prod_iam_role" {
   }
 
   policy_documents = [
-    module.policy.policy
+    data.aws_iam_policy_document.inline_policy.json
   ]
 
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonGlacierReadOnlyAccess",
-    "arn:aws:iam::${var.prod_account_id}:policy/${module.managed_iam_prod_policy.policy_name}"
+    "arn:aws:iam::${var.prod_account_id}:policy/${aws_iam_policy.test_managed_policy.name}"
   ]
 }
 
