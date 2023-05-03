@@ -28,7 +28,6 @@ resource "aws_iam_user_policy_attachment" "azuread_policy_attach" {
 
 resource "aws_iam_access_key" "azuread" {
   user    = aws_iam_user.azuread_provisioner.name
-  pgp_key = "keybase:elocal"
 }
 
 output "secret" {
